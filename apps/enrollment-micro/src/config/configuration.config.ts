@@ -13,7 +13,7 @@ export const Configuration = () => ({
   database: {
     host: process.env.DATABASE_HOST ?? 'localhost',
     port: parseInt(process.env.DATABASE_PORT ?? '5432'),
-    username: process.env.DATABASE_USERNAME ?? 'root',
+    username: process.env.DATABASE_USER ?? 'root',
     password: process.env.DATABASE_PASSWORD ?? 'password',
     database: process.env.DATABASE_NAME ?? 'postgres',
     logging: process.env.DATABASE_LOGGING ?? 'true',

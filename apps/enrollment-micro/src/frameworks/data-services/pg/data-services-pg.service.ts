@@ -13,9 +13,10 @@ export class DataServicesPgService implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('database.username'),
       password: this.configService.get<string>('database.password'),
       database: this.configService.get<string>('database.database'),
-      entities: ['./entities/*.entity{.ts,.js}'],
+      entities: [__dirname + '/../../entities/**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '/../../migrations/**/*{.ts,.js}'],
       synchronize: false,
-      logging: this.configService.get<boolean>('data.logging'),
+      logging: this.configService.get<boolean>('database.logging'),
     };
   }
 }

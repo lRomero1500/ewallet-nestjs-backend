@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { DataServicesPgService } from './data-services-pg.service';
 import { ConfigModule } from '@nestjs/config';
-import { Configuration } from 'src/config/configuration.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Configuration } from '../../../config/configuration.config';
 
 @Module({
   imports: [
