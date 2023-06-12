@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmConfigPgService } from './config/data-services-typeorm-pg-config.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Configuration } from '../../../config/configuration.config';
 import {
   AccountEntity,
   DocumentTypeEntity,
@@ -11,7 +10,16 @@ import {
   StatusEntity,
   UserEntity,
 } from './entities';
-import { DocumentTypeRepository } from './repositories';
+import {
+  AccountRepository,
+  DocumentTypeRepository,
+  GenderRepository,
+  PersonRepository,
+  StatusRepository,
+  UserRepository,
+  EnrollmentRepository,
+} from './repositories';
+import { Configuration } from 'apps/enrollment-micro/src/config';
 
 @Module({
   imports: [
@@ -32,7 +40,24 @@ import { DocumentTypeRepository } from './repositories';
       UserEntity,
     ]),
   ],
-  providers: [DocumentTypeRepository],
-  exports: [TypeOrmModule, DocumentTypeRepository],
+  providers: [
+    DocumentTypeRepository,
+    StatusRepository,
+    GenderRepository,
+    AccountRepository,
+    UserRepository,
+    PersonRepository,
+    EnrollmentRepository,
+  ],
+  exports: [
+    TypeOrmModule,
+    DocumentTypeRepository,
+    StatusRepository,
+    GenderRepository,
+    AccountRepository,
+    UserRepository,
+    PersonRepository,
+    EnrollmentRepository,
+  ],
 })
 export class DataServicesPgModule {}

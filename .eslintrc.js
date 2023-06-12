@@ -27,5 +27,11 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    "@typescript-eslint/no-empty-interface": [
+      "error",
+      {
+        "allowSingleExtends": true
+      }
+    ]
   },
 };

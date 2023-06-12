@@ -2,8 +2,10 @@ import { DocumentTypeEntity } from '../../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { BaseRepositoryAbstract } from '../../../../../core/abstracts/base/base-repository.abstract';
-import { IDocumentTypeRepository } from 'apps/enrollment-micro/src/core/interfaces/repositories/common/document-type-repository.interface';
+import {
+  BaseRepositoryAbstract,
+  IDocumentTypeRepository,
+} from 'apps/enrollment-micro/src/core';
 
 @Injectable()
 export class DocumentTypeRepository

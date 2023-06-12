@@ -12,11 +12,11 @@ export class AccountEntity {
     primary: true,
   })
   id: string;
-  @OneToMany(() => UserEntity, (user) => user.account, {
+  @OneToOne(() => UserEntity, (user) => user.account, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
-  users: UserEntity[];
+  user: UserEntity;
   @Column({
     name: 'created_at',
     type: 'timestamp without time zone',

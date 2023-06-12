@@ -32,7 +32,7 @@ export class UserEntity {
   })
   @JoinColumn([{ name: 'status_id', referencedColumnName: 'id' }])
   status: StatusEntity;
-  @OneToOne(() => AccountEntity, (account) => account.id, {
+  @OneToOne(() => AccountEntity, (account) => account.user, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
