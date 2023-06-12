@@ -18,8 +18,7 @@
     "test:cov": "set SCOPE=test && jest --coverage",
     "test:debug": "set SCOPE=test && node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "set SCOPE=test && jest --config ./apps/enrollment-micro/test/jest-e2e.json",
-    "typeorm": "set SCOPE=dev && typeorm-ts-node-commonjs",
-    "typeorm:enrollment": "set SCOPE=dev && typeorm-ts-node-commonjs -d ./apps/enrollment-micro/src/frameworks/data-services/pg/data-services-pg.data-source.ts",
+    "typeorm:enrollment": "set SCOPE=dev && typeorm-ts-node-commonjs -d ./apps/enrollment-micro/src/frameworks/data-services/pg/data-source/data-services-pg.data-source.ts",
     "migrationsEnrollment:generate": "npm run build && npm run typeorm:enrollment -- migration:generate",
     "migrationsEnrollment:run": "npm run typeorm:enrollment -- migration:run",
     "migrationsEnrollment:revert": "npm run typeorm:enrollment -- migration:revert"

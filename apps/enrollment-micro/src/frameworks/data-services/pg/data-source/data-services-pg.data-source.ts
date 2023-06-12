@@ -9,7 +9,6 @@ dotenv.config({
     `.env.${process.env.SCOPE?.trim()}`,
   ),
 });
-console.log(__dirname + '/../../entities/**/*.entity{.ts,.js}');
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DATABASE_HOST,

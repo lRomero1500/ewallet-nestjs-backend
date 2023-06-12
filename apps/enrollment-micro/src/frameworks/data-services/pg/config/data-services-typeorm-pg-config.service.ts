@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 @Injectable()
-export class DataServicesPgService implements TypeOrmOptionsFactory {
+export class TypeOrmConfigPgService implements TypeOrmOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     return {
@@ -13,8 +13,7 @@ export class DataServicesPgService implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('database.username'),
       password: this.configService.get<string>('database.password'),
       database: this.configService.get<string>('database.database'),
-      entities: [__dirname + '/../../entities/**/*.entity{.ts,.js}'],
-      migrations: [__dirname + '/../../migrations/**/*{.ts,.js}'],
+      autoLoadEntities: true,
       synchronize: false,
       logging: this.configService.get<boolean>('database.logging'),
     };
