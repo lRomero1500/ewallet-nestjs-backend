@@ -1,4 +1,4 @@
-import { Repository, FindOptionsWhere } from 'typeorm';
+import { Repository, FindOptionsWhere, FindOneOptions } from 'typeorm';
 import { BaseRepositoryInterface } from '../../interfaces/repositories/base/base-repository.interface';
 import { NotFoundException } from '@nestjs/common';
 interface HasId {
@@ -16,6 +16,9 @@ export abstract class BaseRepositoryAbstract<T extends HasId>
       id: id,
     };
     return await this.entity.findOneBy(options);
+  }
+  async getByCondition(filterCondition: FindOneOptions<T>): Promise<T | null> {
+    return await this.entity.findOne(filterCondition);
   }
   async create(item: T): Promise<T> {
     return await this.entity.save(item);

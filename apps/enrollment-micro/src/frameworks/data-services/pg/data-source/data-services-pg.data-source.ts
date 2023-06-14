@@ -1,6 +1,18 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { join } from 'node:path';
+import {
+  AccountEntity,
+  DocumentTypeEntity,
+  GenderEntity,
+  PersonEntity,
+  StatusEntity,
+  UserEntity,
+} from '../entities';
+import {
+  EnrollmentInitial1686519654565,
+  AddingPersonidColumnToUserTable1686702514923,
+} from '../migrations';
 
 dotenv.config({
   path: join(
@@ -17,8 +29,18 @@ export const dataSourceOptions: DataSourceOptions = {
   password: process.env.DATABASE_PASSWORD as string,
   database: process.env.DATABASE_NAME,
   schema: 'enrollment',
-  entities: [__dirname + '\\entities\\**\\*.entity{.ts,.js}'],
-  migrations: [__dirname + '\\migrations\\**\\*{.ts,.js}'],
+  entities: [
+    DocumentTypeEntity,
+    GenderEntity,
+    StatusEntity,
+    UserEntity,
+    PersonEntity,
+    AccountEntity,
+  ],
+  migrations: [
+    EnrollmentInitial1686519654565,
+    AddingPersonidColumnToUserTable1686702514923,
+  ],
   synchronize: false,
   logging: process.env.DATABASE_LOGGING === 'true' ? true : false,
 };

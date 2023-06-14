@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { StatusEntity } from '../common/status.entity';
 import { AccountEntity } from '../account/account.entity';
+import { PersonEntity } from '../person';
 
 @Entity({
   name: 'user',
@@ -13,25 +14,29 @@ export class UserEntity {
     primary: true,
   })
   id: string;
-  @Column({
-    name: 'user_name',
-    type: 'varchar',
-    length: '50',
-    unique: true,
-  })
-  userName: string;
-  @Column({
-    name: 'password',
-    type: 'varchar',
-    length: '200',
-  })
-  password: string;
+
   @OneToOne(() => StatusEntity, (status) => status.users, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
   @JoinColumn([{ name: 'status_id', referencedColumnName: 'id' }])
   status: StatusEntity;
+  @Column({
+    name: 'person_id',
+    type: 'uuid',
+  })
+  personId: string;
+  @OneToOne(() => PersonEntity, (person) => person.id, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
+  })
+  @JoinColumn([{ name: 'person_id', referencedColumnName: 'id' }])
+  person: PersonEntity;
+  @Column({
+    name: 'account_id',
+    type: 'uuid',
+  })
+  accountId: string;
   @OneToOne(() => AccountEntity, (account) => account.user, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',

@@ -1,12 +1,16 @@
+import { AutoMap } from '@automapper/classes';
 import { IsNotEmpty, Matches, MinLength } from 'class-validator';
 export class UserDTO {
+  @AutoMap()
   id?: string;
+  @AutoMap()
   @IsNotEmpty({
-    message: 'nombre de usuario requerido',
+    message: 'Nombre de usuario requerido',
   })
   userName: string;
+  @AutoMap()
   @IsNotEmpty({
-    message: 'contraseña requerida',
+    message: 'Contraseña requerida',
   })
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message: `Contraseña debe tener al menos una letra en mayuscula\n
@@ -17,5 +21,5 @@ export class UserDTO {
     message: `Contraseña debe tener minimo 6 caracteres`,
   })
   password: string;
-  statusId: number;
+  statusId?: number;
 }

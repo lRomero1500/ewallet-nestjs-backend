@@ -1,30 +1,42 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToOne } from 'typeorm';
 import { GenderEntity } from '../common/gender.entity';
 import { DocumentTypeEntity } from '../common/document_type.entity';
+import { AutoMap } from '@automapper/classes';
+import { type } from 'os';
 
 @Entity({
   name: 'person',
   schema: 'enrollment',
 })
+@Index(['identification_number', 'doc_type_id'], { unique: true })
 export class PersonEntity {
+  @AutoMap()
   @Column({
     name: 'id',
     type: 'uuid',
     primary: true,
   })
   id: string;
+  @AutoMap()
   @Column({
     name: 'name',
     type: 'varchar',
     length: '50',
   })
   name: string;
+  @AutoMap()
   @Column({
     name: 'last_name',
     type: 'varchar',
     length: '50',
   })
   lastName: string;
+  @AutoMap()
+  @Column({
+    name: 'gender_id',
+    type: 'int',
+  })
+  genderId: number;
   @OneToOne(() => GenderEntity, (gender) => gender.Persons, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
@@ -36,13 +48,20 @@ export class PersonEntity {
     type: 'varchar',
     length: '50',
   })
+  @AutoMap()
   identificationNumber: string;
+  @Column({
+    name: 'doc_type_id',
+    type: 'int',
+  })
+  docTypeId: number;
   @OneToOne(() => DocumentTypeEntity, (docType) => docType.Persons, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
   @JoinColumn([{ name: 'doc_type_id', referencedColumnName: 'id' }])
   documentType: DocumentTypeEntity;
+  @AutoMap()
   @Column({
     name: 'phone_number',
     type: 'varchar',
@@ -50,6 +69,7 @@ export class PersonEntity {
     unique: true,
   })
   phoneNumber: string;
+  @AutoMap()
   @Column({
     name: 'email',
     type: 'varchar',

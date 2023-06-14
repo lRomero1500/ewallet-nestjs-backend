@@ -4,6 +4,7 @@ import {
   StatusRepository,
 } from 'apps/enrollment-micro/src/frameworks';
 import { StatusUseCases } from './status.use-cases';
+import { StatusMappingProfile } from '../../mapping/common/status.mapping.profile';
 
 @Module({
   imports: [DataServicesPgModule],
@@ -13,6 +14,7 @@ import { StatusUseCases } from './status.use-cases';
       provide: 'IStatusRepository',
       useClass: StatusRepository,
     },
+    StatusMappingProfile,
   ],
   exports: [StatusUseCases],
 })

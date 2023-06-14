@@ -5,7 +5,7 @@ import {
   GenderUseCases,
   StatusUseCases,
 } from '../../use-cases/common';
-import { DocumentTypeEntity, GenderEntity, StatusEntity } from '../../core';
+import { DocumentTypeDTO, GenderDTO, StatusDTO } from '../../core';
 import { CommonResponseInterceptorInterceptor } from '../../core/interceptors/common/common-response-interceptor.interceptor';
 
 @Controller({
@@ -21,15 +21,15 @@ export class CommonController {
   ) {}
 
   @Get('/document-types')
-  async getDocumentTypes(): Promise<Observable<DocumentTypeEntity[]>> {
+  getDocumentTypes(): Observable<DocumentTypeDTO[]> {
     return from(this.documentTypeUseCases.getDocumentTypes());
   }
   @Get('/genders')
-  getGenders(): Observable<GenderEntity[]> {
+  getGenders(): Observable<GenderDTO[]> {
     return from(this.genderUseCases.getGenders());
   }
   @Get('/statuses')
-  getStatuses(): Observable<StatusEntity[]> {
+  getStatuses(): Observable<StatusDTO[]> {
     return from(this.statusUseCases.getStatuses());
   }
 }

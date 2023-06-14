@@ -1,10 +1,5 @@
-import { Observable } from 'rxjs';
-import { PersonDTO, AccountDTO, UserDTO } from '../../../dtos';
+import { PersonEntity, UserEntity } from 'apps/enrollment-micro/src/frameworks';
 
 export interface IEnrollmentRepository {
-  newEnrollment(
-    personDto: PersonDTO,
-    accountDto: AccountDTO,
-    userDto: UserDTO,
-  ): Observable<any>;
+  newEnrollment(person: PersonEntity, user: UserEntity): Promise<boolean>;
 }

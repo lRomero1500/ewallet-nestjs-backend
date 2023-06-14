@@ -1,14 +1,16 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PersonEntity } from '../person/person.entity';
+import { AutoMap } from '@automapper/classes';
 
 @Entity({
   name: 'gender',
   schema: 'enrollment',
 })
 export class GenderEntity {
+  @AutoMap()
   @PrimaryGeneratedColumn()
   id: number;
-
+  @AutoMap()
   @Column({
     name: 'type',
     type: 'varchar',

@@ -20,9 +20,12 @@ import {
   EnrollmentRepository,
 } from './repositories';
 import { Configuration } from 'apps/enrollment-micro/src/config';
+import { classes } from '@automapper/classes';
+import { AutomapperModule } from '@automapper/nestjs';
 
 @Module({
   imports: [
+    AutomapperModule.forRoot({ strategyInitializer: classes() }),
     ConfigModule.forRoot({
       load: [Configuration],
       isGlobal: true,

@@ -4,15 +4,24 @@ import {
   GenderRepository,
 } from 'apps/enrollment-micro/src/frameworks';
 import { GenderUseCases } from './gender.use-cases';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
+import { GenderMappingProfile } from '../../mapping/common/gender.mapping.profile';
 
 @Module({
-  imports: [DataServicesPgModule],
+  imports: [
+    DataServicesPgModule,
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
+  ],
   providers: [
     GenderUseCases,
     {
       provide: 'IGenderRepository',
       useClass: GenderRepository,
     },
+    GenderMappingProfile,
   ],
   exports: [GenderUseCases],
 })
