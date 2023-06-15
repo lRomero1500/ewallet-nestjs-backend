@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AuthMicroController } from './auth-micro.controller';
-import { AuthMicroService } from './auth-micro.service';
+import { SecurityService } from './services/security/security.service';
 
 @Module({
   imports: [],
-  controllers: [AuthMicroController],
-  providers: [AuthMicroService],
+  controllers: [],
+  providers: [SecurityService],
 })
 export class AuthMicroModule {}

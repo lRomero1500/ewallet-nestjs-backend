@@ -1,8 +1,7 @@
-import { Observable } from 'rxjs';
 import { IErrorResponse } from './IErrorResponse';
 
-export interface ICommonResponse<T> {
-  data?: T[] | T;
+export interface ICommonResponse<T = null> {
+  data?: T[] | T | null;
   isSuccess: boolean;
   error?: IErrorResponse;
 }

@@ -11,7 +11,7 @@ export class PersonDTO {
   @AutoMap()
   identificationNumber: string;
   @AutoMap()
-  documentTypeId: number;
+  docTypeId: number;
   @AutoMap()
   phoneNumber: string;
   @AutoMap()
