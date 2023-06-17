@@ -8,6 +8,7 @@ import {
 } from '../../core/dtos';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
+import { Auth0ErrorResponseDTO } from '../../core/dtos/auth0/errors/auth0-errorResponseDTO';
 @Injectable()
 export class SecurityService implements ISecurityService {
   private readonly auth0URL: string;
@@ -20,14 +21,45 @@ export class SecurityService implements ISecurityService {
     this.authSecret = this.configService.get<string>('auth0.secret') as string;
     this.authAudience = this.configService.get<string>('auth0.audi') as string;
   }
-  async getAppAuth0Token(
-    authLoginDTO: Auth0LoginDTO,
-  ): Promise<Auth0LoginResponseDTO> {
-    return axios.post(`${this.auth0URL}/oauth/token`);
+  async getAppAuth0Token(): Promise<
+    Auth0LoginResponseDTO | Auth0ErrorResponseDTO
+  > {
+    const data = {
+      client_id: this.authClientID,
+      client_secret: this.authSecret,
+      audience: this.authAudience,
+      grant_type: 'client_credentials',
+    } satisfies Auth0LoginDTO;
+    return await axios.post(`${this.auth0URL}/oauth/token`, data);
   }
-  createAuthUser(
+  async createAuthUser(
     authUserCreateDTO: Auth0UserCreateDTO,
+    token: string,
   ): Promise<Auth0UserCreateResponseDTO> {
-    throw new Error('Method not implemented.');
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    };
+    return await axios.post(
+      `${this.auth0URL}/api/v2/users`,
+      authUserCreateDTO,
+      options,
+    );
+  }
+  async getAppUserAuth0Token(
+    username: string,
+    password: string,
+  ): Promise<Auth0LoginResponseDTO | Auth0ErrorResponseDTO> {
+    const data = {
+      client_id: this.authClientID,
+      client_secret: this.authSecret,
+      audience: this.authAudience,
+      grant_type: 'password',
+      username,
+      password,
+    } satisfies Auth0LoginDTO;
+    return await axios.post(`${this.auth0URL}/oauth/token`, data);
   }
 }
