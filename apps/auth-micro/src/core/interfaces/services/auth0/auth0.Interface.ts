@@ -5,10 +5,14 @@ import {
   Auth0UserCreateResponseDTO,
 } from '../../../dtos/auth0';
 
-export interface ISecurityService {
+export interface IAuth0Service {
   getAppAuth0Token(): Promise<Auth0LoginResponseDTO | Auth0ErrorResponseDTO>;
   createAuthUser(
     authUserCreateDTO: Auth0UserCreateDTO,
     token: string,
   ): Promise<Auth0UserCreateResponseDTO | Auth0ErrorResponseDTO>;
+  getAppUserAuth0Token(
+    username: string,
+    password: string,
+  ): Promise<Auth0LoginResponseDTO | Auth0ErrorResponseDTO>;
 }

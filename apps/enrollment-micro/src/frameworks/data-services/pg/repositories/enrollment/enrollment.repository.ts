@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IEnrollmentRepository } from 'apps/enrollment-micro/src/core/interfaces/repositories/enrollment/enrollment-repository.interface';
 import { DataSource } from 'typeorm';
 import { AccountEntity, PersonEntity, UserEntity } from '../../entities';
+import { ICommonResponse } from 'apps/enrollment-micro/src/core';
 
 @Injectable()
 export class EnrollmentRepository implements IEnrollmentRepository {
@@ -9,7 +10,7 @@ export class EnrollmentRepository implements IEnrollmentRepository {
   async newEnrollment(
     person: PersonEntity,
     user: UserEntity,
-  ): Promise<boolean> {
+  ): Promise<ICommonResponse> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -22,12 +23,14 @@ export class EnrollmentRepository implements IEnrollmentRepository {
       user.accountId = account.id;
       await queryRunner.manager.save(user);
       await queryRunner.commitTransaction();
+      return {
+        isSuccess: true,
+      } satisfies ICommonResponse;
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
     } finally {
       await queryRunner.release();
     }
-    return true;
   }
 }

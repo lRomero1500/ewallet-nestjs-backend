@@ -2,7 +2,7 @@ import { PersonEntity, UserEntity } from 'apps/enrollment-micro/src/frameworks';
 import { ICommonResponse } from '../../ICommonResponse';
 
 export interface IEnrollmentRepository {
-  newEnrollmentValidations(
+  newEnrollment(
     person: PersonEntity,
     user: UserEntity,
   ): Promise<ICommonResponse>;

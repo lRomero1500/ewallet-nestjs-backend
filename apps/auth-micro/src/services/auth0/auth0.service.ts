@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ISecurityService } from '../../core/interfaces';
 import {
   Auth0LoginDTO,
   Auth0LoginResponseDTO,
@@ -9,8 +8,9 @@ import {
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
 import { Auth0ErrorResponseDTO } from '../../core/dtos/auth0/errors/auth0-errorResponseDTO';
+import { IAuth0Service } from '../../core/interfaces';
 @Injectable()
-export class SecurityService implements ISecurityService {
+export class Auth0Service implements IAuth0Service {
   private readonly auth0URL: string;
   private readonly authClientID: string;
   private readonly authSecret: string;
@@ -30,7 +30,7 @@ export class SecurityService implements ISecurityService {
       audience: this.authAudience,
       grant_type: 'client_credentials',
     } satisfies Auth0LoginDTO;
-    return await axios.post(`${this.auth0URL}/oauth/token`, data);
+    return (await axios.post(`${this.auth0URL}/oauth/token`, data)).data;
   }
   async createAuthUser(
     authUserCreateDTO: Auth0UserCreateDTO,
@@ -42,11 +42,13 @@ export class SecurityService implements ISecurityService {
         'Content-Type': 'application/json',
       },
     };
-    return await axios.post(
-      `${this.auth0URL}/api/v2/users`,
-      authUserCreateDTO,
-      options,
-    );
+    return (
+      await axios.post(
+        `${this.auth0URL}/api/v2/users`,
+        authUserCreateDTO,
+        options,
+      )
+    ).data;
   }
   async getAppUserAuth0Token(
     username: string,
@@ -60,6 +62,6 @@ export class SecurityService implements ISecurityService {
       username,
       password,
     } satisfies Auth0LoginDTO;
-    return await axios.post(`${this.auth0URL}/oauth/token`, data);
+    return (await axios.post(`${this.auth0URL}/oauth/token`, data)).data;
   }
 }

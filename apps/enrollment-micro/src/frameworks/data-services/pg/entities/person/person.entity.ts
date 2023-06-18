@@ -8,7 +8,7 @@ import { type } from 'os';
   name: 'person',
   schema: 'enrollment',
 })
-@Index(['identification_number', 'doc_type_id'], { unique: true })
+@Index(['identificationNumber', 'docTypeId'], { unique: true })
 export class PersonEntity {
   @AutoMap()
   @Column({
@@ -43,12 +43,12 @@ export class PersonEntity {
   })
   @JoinColumn([{ name: 'gender_id', referencedColumnName: 'id' }])
   gender: GenderEntity;
+  @AutoMap()
   @Column({
     name: 'identification_number',
     type: 'varchar',
     length: '50',
   })
-  @AutoMap()
   identificationNumber: string;
   @Column({
     name: 'doc_type_id',

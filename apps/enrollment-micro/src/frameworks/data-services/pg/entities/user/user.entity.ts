@@ -14,7 +14,11 @@ export class UserEntity {
     primary: true,
   })
   id: string;
-
+  @Column({
+    name: 'status_id',
+    type: 'int',
+  })
+  statusId: number;
   @OneToOne(() => StatusEntity, (status) => status.users, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',

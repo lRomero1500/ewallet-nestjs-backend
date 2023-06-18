@@ -13,6 +13,7 @@ import {
   EnrollmentInitial1686519654565,
   AddingPersonidColumnToUserTable1686702514923,
 } from '../migrations';
+import { AddingMissingUniqueIndexToPersonTable1687056807640 } from '../migrations/1687056807640-adding_missing_unique_index_to_person_table';
 
 dotenv.config({
   path: join(
@@ -40,6 +41,7 @@ export const dataSourceOptions: DataSourceOptions = {
   migrations: [
     EnrollmentInitial1686519654565,
     AddingPersonidColumnToUserTable1686702514923,
+    AddingMissingUniqueIndexToPersonTable1687056807640,
   ],
   synchronize: false,
   logging: process.env.DATABASE_LOGGING === 'true' ? true : false,

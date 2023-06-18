@@ -5,11 +5,6 @@ export class UserDTO {
   id?: string;
   @AutoMap()
   @IsNotEmpty({
-    message: 'Nombre de usuario requerido',
-  })
-  userName: string;
-  @AutoMap()
-  @IsNotEmpty({
     message: 'Contraseña requerida',
   })
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
