@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AuthMicroController } from './auth-micro.controller';
-import { AuthMicroService } from './auth-micro.service';
+import { Auth0Service } from './services/auth0/auth0.service';
+import { SecurityUseCasesTsModule } from './use-cases/security/security.use-cases.ts.module';
+import { DataServicesPgModule } from './frameworks/data-services/pg/data-services-pg.module';
+import { SecurityController } from './controllers/security/security.controller';
 
 @Module({
-  imports: [],
-  controllers: [AuthMicroController],
-  providers: [AuthMicroService],
+  imports: [DataServicesPgModule, SecurityUseCasesTsModule],
+  controllers: [SecurityController],
+  providers: [Auth0Service],
 })
 export class AuthMicroModule {}
