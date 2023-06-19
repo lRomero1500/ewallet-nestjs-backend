@@ -3,6 +3,7 @@ import { IEnrollmentRepository } from 'apps/enrollment-micro/src/core/interfaces
 import { DataSource } from 'typeorm';
 import { AccountEntity, PersonEntity, UserEntity } from '../../entities';
 import { ICommonResponse } from 'apps/enrollment-micro/src/core';
+import { v4 as UUIDv4 } from 'uuid';
 
 @Injectable()
 export class EnrollmentRepository implements IEnrollmentRepository {
@@ -17,7 +18,7 @@ export class EnrollmentRepository implements IEnrollmentRepository {
     try {
       person = await queryRunner.manager.save(person);
       const account = new AccountEntity();
-      account.id = crypto.randomUUID();
+      account.id = UUIDv4();
       await queryRunner.manager.save(account);
       user.personId = person.id;
       user.accountId = account.id;

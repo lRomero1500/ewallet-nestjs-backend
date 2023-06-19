@@ -1,8 +1,9 @@
 import { Controller, Inject, Post, Body } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  Auth0ErrorResponseDTO,
   Auth0UserCreateDTO,
-  Auth0UserCreateIdentityResponseDTO,
+  Auth0UserCreateResponseDTO,
 } from '../../core';
 import { SecurityUseCases } from '../../use-cases/security/security.use-cases';
 
@@ -12,13 +13,13 @@ export class SecurityController {
   @MessagePattern({ cmd: 'create_user_security' })
   async handleUserCreate(
     @Payload() data: Auth0UserCreateDTO,
-  ): Promise<Auth0UserCreateIdentityResponseDTO> {
+  ): Promise<Auth0UserCreateResponseDTO | Auth0ErrorResponseDTO> {
     return await this.securityUseCases.newEnrollment(data);
   }
   @Post('/new')
   async UserCreate(
     @Body() data: Auth0UserCreateDTO,
-  ): Promise<Auth0UserCreateIdentityResponseDTO> {
+  ): Promise<Auth0UserCreateResponseDTO | Auth0ErrorResponseDTO> {
     return await this.securityUseCases.newEnrollment(data);
   }
 }

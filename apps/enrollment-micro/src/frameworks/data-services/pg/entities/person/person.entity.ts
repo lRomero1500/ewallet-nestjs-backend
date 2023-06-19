@@ -50,6 +50,7 @@ export class PersonEntity {
     length: '50',
   })
   identificationNumber: string;
+  @AutoMap()
   @Column({
     name: 'doc_type_id',
     type: 'int',

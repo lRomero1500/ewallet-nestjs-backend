@@ -6,10 +6,17 @@ import {
   PersonRepository,
 } from '../../frameworks';
 import { EnrollmentUseCases } from './enrollment.use-cases';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
+import { UserMappingProfile } from '../mapping/user/user.mapping.profile';
+import { PersonMappingProfile } from '../mapping/person/person.mapping.profile';
 
 @Module({
   imports: [
     DataServicesPgModule,
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
     ClientsModule.register([
       {
         name: 'AUTH_SERVICE',
@@ -31,6 +38,8 @@ import { EnrollmentUseCases } from './enrollment.use-cases';
       provide: 'IEnrollmentRepository',
       useClass: EnrollmentRepository,
     },
+    UserMappingProfile,
+    PersonMappingProfile,
   ],
   exports: [EnrollmentUseCases],
 })

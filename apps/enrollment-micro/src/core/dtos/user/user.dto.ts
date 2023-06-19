@@ -2,7 +2,7 @@ import { AutoMap } from '@automapper/classes';
 import { IsNotEmpty, Matches, MinLength } from 'class-validator';
 export class UserDTO {
   @AutoMap()
-  id?: string;
+  id: string;
   @AutoMap()
   @IsNotEmpty({
     message: 'Contraseña requerida',
@@ -16,5 +16,6 @@ export class UserDTO {
     message: `Contraseña debe tener minimo 6 caracteres`,
   })
   password: string;
-  statusId?: number;
+  @AutoMap()
+  statusId: number;
 }

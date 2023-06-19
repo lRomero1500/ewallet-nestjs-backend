@@ -2,18 +2,21 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { StatusEntity } from '../common/status.entity';
 import { AccountEntity } from '../account/account.entity';
 import { PersonEntity } from '../person';
+import { AutoMap } from '@automapper/classes';
 
 @Entity({
   name: 'user',
   schema: 'enrollment',
 })
 export class UserEntity {
+  @AutoMap()
   @Column({
     name: 'id',
     type: 'uuid',
     primary: true,
   })
   id: string;
+  @AutoMap()
   @Column({
     name: 'status_id',
     type: 'int',
