@@ -1,5 +1,7 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
+import { DecimalTransformer } from '../../transformers/decimal.transformer';
+import Decimal from 'decimal.js';
 
 @Entity({
   name: 'account',
@@ -12,6 +14,15 @@ export class AccountEntity {
     primary: true,
   })
   id: string;
+  @Column({
+    name: 'balance',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0.0,
+    transformer: new DecimalTransformer(),
+  })
+  balance: Decimal;
   @OneToOne(() => UserEntity, (user) => user.account, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',

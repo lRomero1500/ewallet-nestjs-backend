@@ -1,6 +1,18 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { join } from 'node:path';
+import {
+  BankBookEntity,
+  MovementTypesEntity,
+  StatusEntity,
+  TransactionEntity,
+  TransactionTypesEntity,
+  UserEntity,
+} from '../entities';
+import {
+  InitialMigration1687292601696,
+  AddingMissingFieldBankbooksUserId1687295941762,
+} from '../migrations';
 
 dotenv.config({
   path: join(
@@ -17,8 +29,18 @@ export const dataSourceOptions: DataSourceOptions = {
   password: process.env.DATABASE_PASSWORD as string,
   database: process.env.DATABASE_NAME,
   schema: 'operations',
-  entities: [],
-  migrations: [],
+  entities: [
+    TransactionTypesEntity,
+    StatusEntity,
+    MovementTypesEntity,
+    UserEntity,
+    TransactionEntity,
+    BankBookEntity,
+  ],
+  migrations: [
+    InitialMigration1687292601696,
+    AddingMissingFieldBankbooksUserId1687295941762,
+  ],
   synchronize: false,
   logging: process.env.DATABASE_LOGGING === 'true' ? true : false,
 };
