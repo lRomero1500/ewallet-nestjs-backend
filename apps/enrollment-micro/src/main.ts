@@ -1,17 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { MicroserviceOptions } from '@nestjs/microservices';
+import { KafkaMicroservices } from './config/kafkaClient.config';
+import { TCPLocalConfigs } from './config/tcp.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: {
-      host: '127.0.0.1',
-      port: 3000,
-    },
-  });
+  //app.connectMicroservice<MicroserviceOptions>(TCPLocalConfigs);
+  app.connectMicroservice<MicroserviceOptions>(KafkaMicroservices);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

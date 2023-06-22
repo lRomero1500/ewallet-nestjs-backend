@@ -8,12 +8,18 @@ import {
   TransactionEntity,
   UserEntity,
   MovementTypesEntity,
+  TransactionTypesEntity,
 } from './entities';
 
 import { Configuration } from 'apps/enrollment-micro/src/config';
 import { classes } from '@automapper/classes';
 import { AutomapperModule } from '@automapper/nestjs';
-import { StatusRepository } from './repositories';
+import {
+  StatusRepository,
+  MovementTypesRepository,
+  TransactionTypesRepository,
+  TransactionsBankbooksRepository,
+} from './repositories';
 
 @Module({
   imports: [
@@ -32,9 +38,21 @@ import { StatusRepository } from './repositories';
       TransactionEntity,
       BankBookEntity,
       MovementTypesEntity,
+      TransactionTypesEntity,
     ]),
   ],
-  providers: [StatusRepository],
-  exports: [TypeOrmModule, StatusRepository],
+  providers: [
+    StatusRepository,
+    MovementTypesRepository,
+    TransactionTypesRepository,
+    TransactionsBankbooksRepository,
+  ],
+  exports: [
+    TypeOrmModule,
+    StatusRepository,
+    MovementTypesRepository,
+    TransactionTypesRepository,
+    TransactionsBankbooksRepository,
+  ],
 })
 export class DataServicesPgModule {}

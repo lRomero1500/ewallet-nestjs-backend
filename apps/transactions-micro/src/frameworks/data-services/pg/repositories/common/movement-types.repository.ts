@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class MovementTypesRespository
+export class MovementTypesRepository
   extends BaseRepositoryAbstract<MovementTypesEntity>
   implements IMovementTypesRepository
 {

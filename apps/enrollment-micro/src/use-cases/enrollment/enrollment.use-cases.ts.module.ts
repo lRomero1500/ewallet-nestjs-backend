@@ -11,6 +11,7 @@ import { classes } from '@automapper/classes';
 import { UserMappingProfile } from '../mapping/user/user.mapping.profile';
 import { PersonMappingProfile } from '../mapping/person/person.mapping.profile';
 import { TCPConfigs } from '../../config/tcp.config';
+import { KafkaClientOptions } from '../../config/kafkaClient.config';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TCPConfigs } from '../../config/tcp.config';
       strategyInitializer: classes(),
     }),
     ClientsModule.register(TCPConfigs),
+    ClientsModule.register(KafkaClientOptions),
   ],
   providers: [
     EnrollmentUseCases,

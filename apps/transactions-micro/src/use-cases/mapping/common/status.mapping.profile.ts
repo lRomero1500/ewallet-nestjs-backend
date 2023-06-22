@@ -10,6 +10,7 @@ export class StatusMappingProfile extends AutomapperProfile {
   override get profile(): MappingProfile {
     return (mapper) => {
       createMap(mapper, StatusEntity, StatusDTO);
+      createMap(mapper, StatusDTO, StatusEntity);
     };
   }
 }

@@ -6,6 +6,8 @@ import { StatusUseCasesTsModule } from './use-cases/common/status/status.use-cas
 import { CommonController } from './controllers';
 import { EnrollmentUseCasesTsModule } from './use-cases/enrollment/enrollment.use-cases.ts.module';
 import { EnrollmentController } from './controllers/enrollment/enrollment.controller';
+import { BalanceController } from './controllers/balance/balance.controller';
+import { AccountUseCasesModule } from './use-cases/account/account.use-cases.module';
 
 @Module({
   imports: [
@@ -14,8 +16,9 @@ import { EnrollmentController } from './controllers/enrollment/enrollment.contro
     GenderUseCasesTsModule,
     StatusUseCasesTsModule,
     EnrollmentUseCasesTsModule,
+    AccountUseCasesModule,
   ],
-  controllers: [CommonController, EnrollmentController],
+  controllers: [CommonController, EnrollmentController, BalanceController],
   providers: [],
 })
 export class AppModule {}

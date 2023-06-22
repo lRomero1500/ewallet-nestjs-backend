@@ -6,6 +6,7 @@ import {
   ICommonResponse,
   IPersonRepository,
   PersonDTO,
+  TransactionsDTO,
   UserDTO,
 } from '../../core';
 import { PersonEntity, UserEntity } from '../../frameworks';
@@ -27,6 +28,8 @@ export class EnrollmentUseCases {
     private readonly personRepository: IPersonRepository,
     @Inject('AUTH_SERVICE')
     private authClientProxy: ClientProxy,
+    @Inject('KAFKA_SERVICE')
+    private kafkaClientProxy: ClientProxy,
   ) {}
 
   async newEnrollment(
@@ -68,7 +71,7 @@ export class EnrollmentUseCases {
           name: `${personDto.name} ${personDto.lastName}`,
           picture:
             'https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png',
-          user_id: userDto.id as string,
+          user_id: userDto.id,
           connection: 'Username-Password-Authentication',
           password: userDto.password,
           verify_email: false,
@@ -95,6 +98,15 @@ export class EnrollmentUseCases {
           personEntity,
           userEntity,
         );
+        if (result.isSuccess) {
+          const transactionDTO = new TransactionsDTO();
+          transactionDTO.statusId = 2;
+          transactionDTO.typeId = 2;
+          transactionDTO.userToId = userDto.id;
+          this.kafkaClientProxy.emit('topic.welcoming_bonus', {
+            transactionDTO,
+          });
+        }
       }
       return result;
     } catch (error) {

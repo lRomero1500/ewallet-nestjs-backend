@@ -4,6 +4,7 @@ import { StatusUseCasesModule } from './use-cases/common/status/status.use-cases
 import { MovementTypesUseCasesModule } from './use-cases/common/movement-types/movement-types.use-cases.module';
 import { TransactionTypesUseCasesModule } from './use-cases/common/transaction-types/transaction-types.use-cases.module';
 import { TransactionsUseCasesModule } from './use-cases/transactions/transactions.use-cases.module';
+import { TransactionsController } from './controllers/transactions/transactions.controller';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { TransactionsUseCasesModule } from './use-cases/transactions/transaction
     TransactionTypesUseCasesModule,
     TransactionsUseCasesModule,
   ],
-  controllers: [],
+  controllers: [TransactionsController],
   providers: [],
 })
 export class TransactionsMicroModule {}
