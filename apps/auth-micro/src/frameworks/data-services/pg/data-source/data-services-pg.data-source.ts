@@ -2,9 +2,11 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
 import { join } from 'node:path';
 import { Auth0ApiTokenEntity } from '../entities/auth0/auth0_api_tokens.entity';
-import { InitialMigration1686944966502 } from '../migrations/1686944966502-initial_migration';
 import { PermissionEntity, RoleEntity, UserEntity } from '../entities';
-import { UserRolesPermissions1686962728011 } from '../migrations/1686962728011-user_roles_permissions';
+import {
+  InitialMigration1686944966502,
+  UserRolesPermissions1686962728011,
+} from '../migrations';
 
 dotenv.config({
   path: join(

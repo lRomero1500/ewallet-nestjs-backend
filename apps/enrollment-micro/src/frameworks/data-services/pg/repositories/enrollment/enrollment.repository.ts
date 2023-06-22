@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm';
 import { AccountEntity, PersonEntity, UserEntity } from '../../entities';
 import { ICommonResponse } from 'apps/enrollment-micro/src/core';
 import { v4 as UUIDv4 } from 'uuid';
+import Decimal from 'decimal.js';
 
 @Injectable()
 export class EnrollmentRepository implements IEnrollmentRepository {
@@ -19,6 +20,7 @@ export class EnrollmentRepository implements IEnrollmentRepository {
       person = await queryRunner.manager.save(person);
       const account = new AccountEntity();
       account.id = UUIDv4();
+      account.balance = new Decimal(0);
       await queryRunner.manager.save(account);
       user.personId = person.id;
       user.accountId = account.id;

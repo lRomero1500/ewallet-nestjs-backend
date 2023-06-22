@@ -10,6 +10,8 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { UserMappingProfile } from '../mapping/user/user.mapping.profile';
 import { PersonMappingProfile } from '../mapping/person/person.mapping.profile';
+import { TCPConfigs } from '../../config/tcp.config';
+import { KafkaClientOptions } from '../../config/kafkaClient.config';
 
 @Module({
   imports: [
@@ -17,16 +19,8 @@ import { PersonMappingProfile } from '../mapping/person/person.mapping.profile';
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
-    ClientsModule.register([
-      {
-        name: 'AUTH_SERVICE',
-        transport: Transport.TCP,
-        options: {
-          host: '127.0.0.1',
-          port: 3001,
-        },
-      },
-    ]),
+    ClientsModule.register(TCPConfigs),
+    ClientsModule.register(KafkaClientOptions),
   ],
   providers: [
     EnrollmentUseCases,
