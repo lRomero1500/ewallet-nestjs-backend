@@ -120,13 +120,13 @@ export class TransactionsUseCases {
       }
       await this.updateTransaction(transaction, 'Approved');
       const accountFromDTO = new AccountDTO();
-      accountFromDTO.balance = userFromData.balance.minus(amount);
+      accountFromDTO.balance = new Decimal(userFromData.balance).minus(amount);
       accountFromDTO.userId = transaction.userFromId;
       this.kafkaClientProxy.emit('topic.balance_update', {
         accountDTO: accountFromDTO,
       });
       const accountToDTO = new AccountDTO();
-      accountToDTO.balance = userToData.balance.plus(amount);
+      accountToDTO.balance = new Decimal(userToData.balance).plus(amount);
       accountToDTO.userId = transactionDTO.userToId;
       this.kafkaClientProxy.emit('topic.balance_update', {
         accountDTO: accountToDTO,
@@ -157,7 +157,7 @@ export class TransactionsUseCases {
         },
       };
     }
-    if (userFromData.balance.lessThan(amount)) {
+    if (new Decimal(userFromData.balance).lessThan(amount)) {
       await this.updateTransaction(transaction, 'Error');
       return {
         isSuccess: false,
