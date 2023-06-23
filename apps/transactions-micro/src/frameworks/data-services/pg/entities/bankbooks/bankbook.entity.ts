@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { MovementTypesEntity } from '../common/movement-types.entity';
 import { TransactionEntity } from '../transactions/transaction.entity';
 import { DecimalTransformer } from '../../transformers/decimal.transformer';
@@ -22,7 +22,7 @@ export class BankBookEntity {
     type: 'int',
   })
   typeId: number;
-  @OneToOne(() => MovementTypesEntity, {
+  @ManyToOne(() => MovementTypesEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -42,7 +42,7 @@ export class BankBookEntity {
     type: 'uuid',
   })
   userId: string;
-  @OneToOne(() => UserEntity, {
+  @ManyToOne(() => UserEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -53,7 +53,7 @@ export class BankBookEntity {
     type: 'bigint',
   })
   transactionId: number;
-  @OneToOne(() => TransactionEntity, {
+  @ManyToOne(() => TransactionEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })

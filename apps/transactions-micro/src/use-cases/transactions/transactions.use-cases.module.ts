@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
 import { TCPConfigs } from '../../config/tcp.config';
-import { DataServicesPgModule } from '../../frameworks/data-services/pg';
+import {
+  DataServicesPgModule,
+  StatusRepository,
+  TransactionRepository,
+} from '../../frameworks/data-services/pg';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { TransactionsBankbooksRepository } from '../../frameworks/data-services/pg/repositories/transactions-bankbooks/transactions-bankbooks.repository';
@@ -16,7 +20,7 @@ import { KafkaClientOptions } from '../../config/kafka-microservices.config';
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
-    //ClientsModule.register(TCPConfigs),
+    ClientsModule.register(TCPConfigs),
     ClientsModule.register(KafkaClientOptions),
   ],
   providers: [
@@ -24,6 +28,14 @@ import { KafkaClientOptions } from '../../config/kafka-microservices.config';
     {
       provide: 'ITransactionsBankBooksRepository',
       useClass: TransactionsBankbooksRepository,
+    },
+    {
+      provide: 'IStatusRepository',
+      useClass: StatusRepository,
+    },
+    {
+      provide: 'ITransactionsRepository',
+      useClass: TransactionRepository,
     },
     TransactionsMappingProfile,
     StatusMappingProfile,

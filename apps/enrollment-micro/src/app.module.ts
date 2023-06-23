@@ -8,6 +8,7 @@ import { EnrollmentUseCasesTsModule } from './use-cases/enrollment/enrollment.us
 import { EnrollmentController } from './controllers/enrollment/enrollment.controller';
 import { BalanceController } from './controllers/balance/balance.controller';
 import { AccountUseCasesModule } from './use-cases/account/account.use-cases.module';
+import { AccountController } from './controllers/account/account.controller';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { AccountUseCasesModule } from './use-cases/account/account.use-cases.mod
     EnrollmentUseCasesTsModule,
     AccountUseCasesModule,
   ],
-  controllers: [CommonController, EnrollmentController, BalanceController],
+  controllers: [CommonController, EnrollmentController, BalanceController, AccountController],
   providers: [],
 })
 export class AppModule {}

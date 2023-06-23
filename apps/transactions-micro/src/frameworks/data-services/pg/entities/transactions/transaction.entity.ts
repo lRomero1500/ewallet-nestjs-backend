@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -26,7 +27,7 @@ export class TransactionEntity {
     type: 'int',
   })
   statusId: number;
-  @OneToOne(() => StatusEntity, {
+  @ManyToOne(() => StatusEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -38,7 +39,7 @@ export class TransactionEntity {
     type: 'int',
   })
   typeId: number;
-  @OneToOne(() => TransactionTypesEntity, {
+  @ManyToOne(() => TransactionTypesEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -51,7 +52,7 @@ export class TransactionEntity {
     nullable: true,
   })
   userFromId: string;
-  @OneToOne(() => UserEntity, {
+  @ManyToOne(() => UserEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -63,7 +64,7 @@ export class TransactionEntity {
     type: 'uuid',
   })
   userToId: string;
-  @OneToOne(() => UserEntity, {
+  @ManyToOne(() => UserEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })

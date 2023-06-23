@@ -13,6 +13,7 @@ import {
   InitialMigration1687292601696,
   AddingMissingFieldBankbooksUserId1687295941762,
   ChangingUserFromToNullableTrasnactionsTable1687362608834,
+  FixingRelationships1687487479821,
 } from '../migrations';
 
 dotenv.config({
@@ -42,6 +43,7 @@ export const dataSourceOptions: DataSourceOptions = {
     InitialMigration1687292601696,
     AddingMissingFieldBankbooksUserId1687295941762,
     ChangingUserFromToNullableTrasnactionsTable1687362608834,
+    FixingRelationships1687487479821,
   ],
   synchronize: false,
   logging: process.env.DATABASE_LOGGING === 'true' ? true : false,

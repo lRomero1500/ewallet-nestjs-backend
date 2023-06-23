@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { PersonEntity } from '../person/person.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
 @Entity({
   name: 'document_type',
@@ -16,11 +15,6 @@ export class DocumentTypeEntity {
     length: '50',
   })
   type: string;
-  @OneToMany(() => PersonEntity, (person) => person.gender, {
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT',
-  })
-  Persons: PersonEntity[];
   @Column({
     name: 'created_at',
     type: 'timestamp without time zone',
