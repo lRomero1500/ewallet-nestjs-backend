@@ -13,6 +13,7 @@ import { TransactionsMappingProfile } from '../mapping/transactions/transactions
 import { TransactionsUseCases } from './transactions.use-cases';
 import { StatusMappingProfile } from '../mapping/common/status.mapping.profile';
 import { KafkaClientOptions } from '../../config/kafka-microservices.config';
+import { ActivityMappingProfile } from '../mapping/activity/activity.mapping.profile';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { KafkaClientOptions } from '../../config/kafka-microservices.config';
     },
     TransactionsMappingProfile,
     StatusMappingProfile,
+    ActivityMappingProfile,
   ],
   exports: [TransactionsUseCases],
 })

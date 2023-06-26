@@ -2,4 +2,6 @@ import { TransactionEntity } from 'apps/transactions-micro/src/frameworks/data-s
 import { BaseRepositoryInterface } from '../base';
 
 export interface ITransactionsRepository
-  extends BaseRepositoryInterface<TransactionEntity> {}
+  extends BaseRepositoryInterface<TransactionEntity> {
+  getUserActivity(userId: string): Promise<TransactionEntity[]>;
+}

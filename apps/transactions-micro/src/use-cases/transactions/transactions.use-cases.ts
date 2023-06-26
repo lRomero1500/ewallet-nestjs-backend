@@ -6,6 +6,7 @@ import {
 } from '../../core/interfaces';
 import { ICommonResponse } from 'apps/enrollment-micro/src/core';
 import {
+  ActivityDTO,
   TransactionsDTO,
   UserStatusBalanceBindingDTO,
   UserStatusBalanceResponseDTO,
@@ -136,6 +137,26 @@ export class TransactionsUseCases {
       };
     } catch (error) {
       await this.updateTransaction(transaction, 'Error');
+      throw error;
+    }
+  }
+  async getUserActivity(
+    userId: string,
+  ): Promise<ICommonResponse<ActivityDTO[]>> {
+    try {
+      const transactions = await this.transactionsRepository.getUserActivity(
+        userId,
+      );
+      const activity = await this.mapper.mapArrayAsync(
+        transactions,
+        TransactionEntity,
+        ActivityDTO,
+      );
+      return {
+        isSuccess: true,
+        data: activity,
+      };
+    } catch (error) {
       throw error;
     }
   }
