@@ -4,3 +4,4 @@ export * from './data-source';
 export * from './entities';
 export * from './migrations';
 export * from './repositories';
+export * from './transformers';

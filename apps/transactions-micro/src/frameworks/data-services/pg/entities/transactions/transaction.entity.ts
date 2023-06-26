@@ -2,6 +2,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -9,6 +11,7 @@ import { StatusEntity } from '../common/status.entity';
 import { UserEntity } from '../user/user.entity';
 import { TransactionTypesEntity } from '../common/transaction-types.entity';
 import { AutoMap } from '@automapper/classes';
+import { BankBookEntity } from '../bankbooks';
 
 @Entity({
   name: 'transaction',
@@ -26,7 +29,7 @@ export class TransactionEntity {
     type: 'int',
   })
   statusId: number;
-  @OneToOne(() => StatusEntity, {
+  @ManyToOne(() => StatusEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -38,7 +41,7 @@ export class TransactionEntity {
     type: 'int',
   })
   typeId: number;
-  @OneToOne(() => TransactionTypesEntity, {
+  @ManyToOne(() => TransactionTypesEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -51,7 +54,7 @@ export class TransactionEntity {
     nullable: true,
   })
   userFromId: string;
-  @OneToOne(() => UserEntity, {
+  @ManyToOne(() => UserEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -63,12 +66,14 @@ export class TransactionEntity {
     type: 'uuid',
   })
   userToId: string;
-  @OneToOne(() => UserEntity, {
+  @ManyToOne(() => UserEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
   @JoinColumn([{ name: 'user_to_id', referencedColumnName: 'id' }])
   userTo: UserEntity;
+  @OneToMany(() => BankBookEntity, (bankbooks) => bankbooks.transaction)
+  bankbooks: BankBookEntity[];
   @Column({
     name: 'created_at',
     type: 'timestamp without time zone',

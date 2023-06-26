@@ -6,7 +6,13 @@ import {
   IAccountRepository,
   IUserRepository,
 } from '../../core/interfaces/repositories';
-import { AccountDTO, ICommonResponse, IErrorResponse } from '../../core';
+import {
+  AccountDTO,
+  ICommonResponse,
+  IErrorResponse,
+  UserStatusBalanceBindingDTO,
+  UserStatusBalanceResponseDTO,
+} from '../../core';
 
 @Injectable()
 export class AccountUseCases {
@@ -66,5 +72,48 @@ export class AccountUseCases {
         },
       };
     }
+  }
+  async getUserStatusAndBalance(
+    data: UserStatusBalanceBindingDTO,
+  ): Promise<ICommonResponse<UserStatusBalanceResponseDTO>> {
+    const user =
+      data.searchType == 'userId'
+        ? await this.userRepository.getByCondition({
+            where: {
+              id: data.userSearchParam,
+            },
+            relations: {
+              account: true,
+              status: true,
+            },
+          })
+        : await this.userRepository.getByCondition({
+            where: {
+              person: {
+                phoneNumber: data.userSearchParam,
+              },
+            },
+            relations: {
+              account: true,
+              status: true,
+              person: true,
+            },
+          });
+    if (!user)
+      return {
+        isSuccess: false,
+        error: {
+          statusCode: '9001',
+          statusMessage: 'usuario no existe',
+        } as IErrorResponse,
+      };
+    return {
+      isSuccess: true,
+      data: {
+        userId: user.id,
+        status: user.status.status,
+        balance: user.account.balance,
+      },
+    };
   }
 }

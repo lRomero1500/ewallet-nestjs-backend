@@ -1,8 +1,7 @@
-import { Column, Entity, Index, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { GenderEntity } from '../common/gender.entity';
 import { DocumentTypeEntity } from '../common/document_type.entity';
 import { AutoMap } from '@automapper/classes';
-import { type } from 'os';
 
 @Entity({
   name: 'person',
@@ -37,7 +36,7 @@ export class PersonEntity {
     type: 'int',
   })
   genderId: number;
-  @OneToOne(() => GenderEntity, (gender) => gender.Persons, {
+  @ManyToOne(() => GenderEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
@@ -56,7 +55,7 @@ export class PersonEntity {
     type: 'int',
   })
   docTypeId: number;
-  @OneToOne(() => DocumentTypeEntity, (docType) => docType.Persons, {
+  @ManyToOne(() => DocumentTypeEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })

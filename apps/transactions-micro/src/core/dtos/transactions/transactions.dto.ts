@@ -4,7 +4,7 @@ export class TransactionsDTO {
   @AutoMap()
   id?: number;
   @AutoMap()
-  statusId: number;
+  statusId?: number;
   @AutoMap()
   typeId: number;
   @AutoMap()

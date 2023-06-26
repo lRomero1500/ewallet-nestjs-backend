@@ -17,11 +17,6 @@ export class GenderEntity {
     length: '20',
   })
   gender: string;
-  @OneToMany(() => PersonEntity, (person) => person.gender, {
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT',
-  })
-  Persons: PersonEntity[];
   @Column({
     name: 'created_at',
     type: 'timestamp without time zone',

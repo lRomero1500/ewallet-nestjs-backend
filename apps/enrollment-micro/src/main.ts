@@ -7,8 +7,8 @@ import { TCPLocalConfigs } from './config/tcp.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  //app.connectMicroservice<MicroserviceOptions>(TCPLocalConfigs);
   app.connectMicroservice<MicroserviceOptions>(KafkaMicroservices);
+  app.connectMicroservice<MicroserviceOptions>(TCPLocalConfigs);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

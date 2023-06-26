@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { StatusEntity } from '../common/status.entity';
 import { AccountEntity } from '../account/account.entity';
 import { PersonEntity } from '../person';
@@ -17,16 +17,13 @@ export class UserEntity {
   })
   id: string;
   @AutoMap()
-  @Column({
-    name: 'status_id',
-    type: 'int',
-  })
+  @Column()
   statusId: number;
-  @OneToOne(() => StatusEntity, (status) => status.users, {
+  @ManyToOne(() => StatusEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })
-  @JoinColumn([{ name: 'status_id', referencedColumnName: 'id' }])
+  @JoinColumn([{ name: 'statusId', referencedColumnName: 'id' }])
   status: StatusEntity;
   @Column({
     name: 'person_id',

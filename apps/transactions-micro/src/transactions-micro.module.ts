@@ -5,6 +5,7 @@ import { MovementTypesUseCasesModule } from './use-cases/common/movement-types/m
 import { TransactionTypesUseCasesModule } from './use-cases/common/transaction-types/transaction-types.use-cases.module';
 import { TransactionsUseCasesModule } from './use-cases/transactions/transactions.use-cases.module';
 import { TransactionsController } from './controllers/transactions/transactions.controller';
+import { ActivityController } from './controllers/activity/activity.controller';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { TransactionsController } from './controllers/transactions/transactions.
     TransactionTypesUseCasesModule,
     TransactionsUseCasesModule,
   ],
-  controllers: [TransactionsController],
+  controllers: [TransactionsController, ActivityController],
   providers: [],
 })
 export class TransactionsMicroModule {}
