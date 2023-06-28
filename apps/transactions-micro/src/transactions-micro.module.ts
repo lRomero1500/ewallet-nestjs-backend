@@ -6,6 +6,8 @@ import { TransactionTypesUseCasesModule } from './use-cases/common/transaction-t
 import { TransactionsUseCasesModule } from './use-cases/transactions/transactions.use-cases.module';
 import { TransactionsController } from './controllers/transactions/transactions.controller';
 import { ActivityController } from './controllers/activity/activity.controller';
+import { PassportModule } from '@nestjs/passport';
+import { ServiceModule } from './services/service.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { ActivityController } from './controllers/activity/activity.controller';
     MovementTypesUseCasesModule,
     TransactionTypesUseCasesModule,
     TransactionsUseCasesModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    ServiceModule,
   ],
   controllers: [TransactionsController, ActivityController],
   providers: [],

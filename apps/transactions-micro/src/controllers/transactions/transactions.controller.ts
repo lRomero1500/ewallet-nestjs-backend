@@ -1,8 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
-import { ICommonResponse, TransactionsDTO } from '../../core';
+import {
+  ICommonResponse,
+  PermissionsEnum,
+  TransactionsDTO,
+  Permissions,
+  TransferAmountDTO,
+} from '../../core';
+import { AuthGuard } from '@nestjs/passport';
+import { PermissionsGuard } from '../../core/guards/permissions.guard';
 import { TransactionsUseCases } from '../../use-cases/transactions/transactions.use-cases';
-import { TransferAmountDTO } from '../../core/dtos/transactions/transferAmount.dto';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -11,7 +18,8 @@ export class TransactionsController {
   handleWelcomingBonus(data: { transactionDTO: TransactionsDTO }) {
     this.transactionUseCases.welcomingBonus(data.transactionDTO);
   }
-
+  @Permissions(PermissionsEnum.TRANSACTION_CREATE)
+  @UseGuards(AuthGuard('jwt'), PermissionsGuard)
   @Post('/transferAmount')
   async transferAmount(
     @Body() data: TransferAmountDTO,

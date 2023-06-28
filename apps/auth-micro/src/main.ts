@@ -1,17 +1,20 @@
 import { NestFactory } from '@nestjs/core';
-import { AuthMicroModule } from './auth-micro.module';
-
-import { TCPConfigs } from './config/tcp.config';
 import { ValidationPipe } from '@nestjs/common';
+import { AuthMicroModule } from './auth-micro.module';
+import { TCPConfigs } from './config/tcp.config';
+import { MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(AuthMicroModule, TCPConfigs);
+  const app = await NestFactory.create(AuthMicroModule);
+  app.connectMicroservice<MicroserviceOptions>(TCPConfigs);
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
     }),
   );
-  await app.listen();
-  console.log(`🚀 Microservice is listening `);
+  app.enableCors();
+  await app.startAllMicroservices();
+  await app.listen(3001);
+  console.log(`🚀 Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

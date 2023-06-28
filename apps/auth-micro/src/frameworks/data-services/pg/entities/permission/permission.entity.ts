@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { RoleEntity } from '../role/role.entity';
+import { AutoMap } from '@automapper/classes';
 
 @Entity({
   name: 'permission',
@@ -14,6 +15,7 @@ import { RoleEntity } from '../role/role.entity';
 export class PermissionEntity {
   @PrimaryGeneratedColumn()
   id: number;
+  @AutoMap()
   @Column({
     name: 'permission',
     type: 'varchar',

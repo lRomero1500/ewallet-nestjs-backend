@@ -30,6 +30,7 @@ export class UserEntity {
     type: 'uuid',
   })
   personId: string;
+  @AutoMap()
   @OneToOne(() => PersonEntity, (person) => person.id, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
@@ -41,6 +42,7 @@ export class UserEntity {
     type: 'uuid',
   })
   accountId: string;
+  @AutoMap()
   @OneToOne(() => AccountEntity, (account) => account.user, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',

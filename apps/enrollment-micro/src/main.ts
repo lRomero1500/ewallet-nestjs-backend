@@ -14,6 +14,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.enableCors();
   await app.startAllMicroservices();
   await app.listen(3000);
   console.log(`🚀 Application is running on: ${await app.getUrl()}`);

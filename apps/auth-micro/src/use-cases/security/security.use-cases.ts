@@ -88,4 +88,20 @@ export class SecurityUseCases {
       throw error;
     }
   }
+  async validatePermission(
+    userId: string,
+    permission: string,
+  ): Promise<boolean> {
+    const userPermission = this.userRepository.getByCondition({
+      where: {
+        id: userId,
+        roles: {
+          permissions: {
+            permission: permission,
+          },
+        },
+      },
+    });
+    return userPermission != null;
+  }
 }
