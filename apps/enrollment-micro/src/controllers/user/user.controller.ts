@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { UserUseCases } from '../../use-cases';
 import { MessagePattern, Payload, Transport } from '@nestjs/microservices';
-import { ICommonResponse, UserProfileDTO } from '../../core';
+import { UserProfileDTO } from '../../core';
 
 @Controller('user')
 export class UserController {
@@ -12,5 +12,11 @@ export class UserController {
     @Payload() email: string,
   ): Promise<UserProfileDTO> {
     return await this.userUseCases.getUserProfile(email);
+  }
+  @MessagePattern({ cmd: 'get_profile_information_by_id' }, Transport.TCP)
+  async handleGetProfileInformationById(
+    @Payload() userId: string,
+  ): Promise<UserProfileDTO> {
+    return await this.userUseCases.getUserProfileById(userId);
   }
 }

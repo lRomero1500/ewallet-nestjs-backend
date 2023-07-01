@@ -20,7 +20,32 @@ export class UserUseCases {
           },
         },
         relations: {
-          person: true,
+          person: {
+            documentType: true,
+          },
+          account: true,
+        },
+      });
+      const result = await this.mapper.mapAsync(
+        userProfile,
+        UserEntity,
+        UserProfileDTO,
+      );
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getUserProfileById(userId: string): Promise<UserProfileDTO> {
+    try {
+      const userProfile = await this.userRepository.getByCondition({
+        where: {
+          id: userId,
+        },
+        relations: {
+          person: {
+            documentType: true,
+          },
           account: true,
         },
       });

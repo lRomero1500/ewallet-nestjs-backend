@@ -7,17 +7,17 @@ import {
 import { ICommonResponse } from 'apps/enrollment-micro/src/core';
 import {
   ActivityDTO,
+  DetailedActivityDTO,
   TransactionsDTO,
-  UserStatusBalanceBindingDTO,
+  UserActivityDTO,
   UserStatusBalanceResponseDTO,
 } from '../../core/dtos';
 import { getMapperToken } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { TransactionEntity } from '../../frameworks/data-services/pg';
-import { ClientProxy } from '@nestjs/microservices';
 import { AccountDTO } from '../../core/dtos/account';
 import Decimal from 'decimal.js';
-import { firstValueFrom } from 'rxjs';
+import { EnrollmentProxyService, KafkaProxyService } from '../../services';
 @Injectable()
 export class TransactionsUseCases {
   constructor(
@@ -28,10 +28,8 @@ export class TransactionsUseCases {
     private readonly statusRepository: IStatusRepository,
     @Inject('ITransactionsRepository')
     private readonly transactionsRepository: ITransactionsRepository,
-    @Inject('KAFKA_SERVICE')
-    private kafkaClientProxy: ClientProxy,
-    @Inject('ENROLLMENT_SERVICE')
-    private enrollmentClientProxy: ClientProxy,
+    private readonly kafkaService: KafkaProxyService,
+    private readonly enrollmentService: EnrollmentProxyService,
   ) {}
   async welcomingBonus(
     transactionDTO: TransactionsDTO,
@@ -49,9 +47,7 @@ export class TransactionsUseCases {
         const accountDTO = new AccountDTO();
         accountDTO.balance = new Decimal(1000);
         accountDTO.userId = transactionDTO.userToId;
-        this.kafkaClientProxy.emit('topic.balance_update', {
-          accountDTO,
-        });
+        this.kafkaService.balanceUpdate(accountDTO);
       }
       return result;
     } catch (error) {
@@ -69,21 +65,13 @@ export class TransactionsUseCases {
       TransactionEntity,
     );
     try {
-      const userFromInfo = await firstValueFrom(
-        this.enrollmentClientProxy.send<
-          ICommonResponse<UserStatusBalanceResponseDTO>
-        >({ cmd: 'getUserStatusAndBalance' }, {
-          searchType: 'userId',
-          userSearchParam: transaction.userFromId,
-        } as UserStatusBalanceBindingDTO),
+      const userFromInfo = await this.enrollmentService.getUserStatusAndBalance(
+        transaction.userFromId,
+        'userId',
       );
-      const userToInfo = await firstValueFrom(
-        this.enrollmentClientProxy.send<
-          ICommonResponse<UserStatusBalanceResponseDTO>
-        >({ cmd: 'getUserStatusAndBalance' }, {
-          searchType: 'phone',
-          userSearchParam: transaction.userToId,
-        } as UserStatusBalanceBindingDTO),
+      const userToInfo = await this.enrollmentService.getUserStatusAndBalance(
+        transaction.userToId,
+        'phone',
       );
       if (!userFromInfo.isSuccess) {
         return {
@@ -123,15 +111,11 @@ export class TransactionsUseCases {
       const accountFromDTO = new AccountDTO();
       accountFromDTO.balance = new Decimal(userFromData.balance).minus(amount);
       accountFromDTO.userId = transaction.userFromId;
-      this.kafkaClientProxy.emit('topic.balance_update', {
-        accountDTO: accountFromDTO,
-      });
+      this.kafkaService.balanceUpdate(accountFromDTO);
       const accountToDTO = new AccountDTO();
       accountToDTO.balance = new Decimal(userToData.balance).plus(amount);
       accountToDTO.userId = transactionDTO.userToId;
-      this.kafkaClientProxy.emit('topic.balance_update', {
-        accountDTO: accountToDTO,
-      });
+      this.kafkaService.balanceUpdate(accountToDTO);
       return {
         isSuccess: true,
       };
@@ -155,6 +139,56 @@ export class TransactionsUseCases {
       return {
         isSuccess: true,
         data: activity,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getUserActivityDetailed(
+    userId: string,
+    transactionId: number,
+  ): Promise<ICommonResponse<DetailedActivityDTO>> {
+    try {
+      const transaction = await this.transactionsRepository.getByCondition({
+        where: {
+          id: transactionId,
+          bankbooks: {
+            userId: userId,
+          },
+        },
+        relations: {
+          bankbooks: {
+            type: true,
+          },
+          type: true,
+        },
+      });
+      const userActivityDetailed = await this.mapper.mapAsync(
+        transaction,
+        TransactionEntity,
+        DetailedActivityDTO,
+      );
+      const userFromData = transaction?.userFromId
+        ? await this.enrollmentService.getProfileInfo(transaction?.userFromId)
+        : null;
+      if (userFromData) {
+        userActivityDetailed.userFrom = {
+          fullName: `${userFromData.person.name} ${userFromData.person.lastName}`,
+          documentType: userFromData.person.documentType.type,
+          documentNumber: userFromData.person.identificationNumber,
+        } as UserActivityDTO;
+      }
+      const userToData = await this.enrollmentService.getProfileInfo(
+        transaction?.userToId as string,
+      );
+      userActivityDetailed.userTo = {
+        fullName: `${userToData.person.name} ${userToData.person.lastName}`,
+        documentType: userToData.person.documentType.type,
+        documentNumber: userToData.person.identificationNumber,
+      } as UserActivityDTO;
+      return {
+        isSuccess: true,
+        data: userActivityDetailed,
       };
     } catch (error) {
       throw error;

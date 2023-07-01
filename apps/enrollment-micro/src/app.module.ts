@@ -11,6 +11,7 @@ import { AccountUseCasesModule } from './use-cases/account/account.use-cases.mod
 import { AccountController } from './controllers/account/account.controller';
 import { UserController } from './controllers/user/user.controller';
 import { UserUseCasesModule } from './use-cases/user/user.use-cases.module';
+import { ServiceModule } from './services/service.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UserUseCasesModule } from './use-cases/user/user.use-cases.module';
     EnrollmentUseCasesTsModule,
     AccountUseCasesModule,
     UserUseCasesModule,
+    ServiceModule,
   ],
   controllers: [
     CommonController,

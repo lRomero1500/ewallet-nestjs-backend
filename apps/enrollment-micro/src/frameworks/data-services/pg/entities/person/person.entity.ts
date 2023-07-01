@@ -55,6 +55,7 @@ export class PersonEntity {
     type: 'int',
   })
   docTypeId: number;
+  @AutoMap()
   @ManyToOne(() => DocumentTypeEntity, {
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',

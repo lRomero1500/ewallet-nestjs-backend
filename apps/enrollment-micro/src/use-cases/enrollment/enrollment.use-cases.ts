@@ -10,13 +10,8 @@ import {
   UserDTO,
 } from '../../core';
 import { PersonEntity, UserEntity } from '../../frameworks';
-import { ClientProxy } from '@nestjs/microservices';
-import {
-  Auth0UserCreateDTO,
-  Auth0UserCreateResponseDTO,
-} from '../../core/dtos/auth0/users';
 import { Auth0ErrorResponseDTO } from '../../core/dtos/auth0/errors';
-import { firstValueFrom } from 'rxjs';
+import { AuthProxyService, KafkaProxyService } from '../../services';
 
 @Injectable()
 export class EnrollmentUseCases {
@@ -26,10 +21,8 @@ export class EnrollmentUseCases {
     private readonly enrollmentRepository: IEnrollmentRepository,
     @Inject('IPersonRepository')
     private readonly personRepository: IPersonRepository,
-    @Inject('AUTH_SERVICE')
-    private authClientProxy: ClientProxy,
-    @Inject('KAFKA_SERVICE')
-    private kafkaClientProxy: ClientProxy,
+    private readonly authProxyService: AuthProxyService,
+    private readonly kafkaProxyService: KafkaProxyService,
   ) {}
 
   async newEnrollment(
@@ -58,24 +51,9 @@ export class EnrollmentUseCases {
           },
         };
       }
-
-      const authResponse = await firstValueFrom(
-        this.authClientProxy.send<
-          Auth0UserCreateResponseDTO | Auth0ErrorResponseDTO
-        >({ cmd: 'create_user_security' }, {
-          email: personDto.email,
-          blocked: false,
-          email_verified: false,
-          given_name: personDto.name,
-          family_name: personDto.lastName,
-          name: `${personDto.name} ${personDto.lastName}`,
-          picture:
-            'https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png',
-          user_id: userDto.id,
-          connection: 'Username-Password-Authentication',
-          password: userDto.password,
-          verify_email: false,
-        } as Auth0UserCreateDTO),
+      const authResponse = await this.authProxyService.createAuth0User(
+        personDto,
+        userDto,
       );
       if ((authResponse as Auth0ErrorResponseDTO).error)
         throw new Error(
@@ -103,9 +81,7 @@ export class EnrollmentUseCases {
           transactionDTO.statusId = 2;
           transactionDTO.typeId = 2;
           transactionDTO.userToId = userDto.id;
-          this.kafkaClientProxy.emit('topic.welcoming_bonus', {
-            transactionDTO,
-          });
+          this.kafkaProxyService.welcomingBonus(transactionDTO);
         }
       }
       return result;

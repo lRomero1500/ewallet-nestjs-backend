@@ -8,4 +8,6 @@ export class DetailedActivityDTO {
   userTo: UserActivityDTO;
   amount: Decimal;
   date: Date;
+  isInCome: boolean;
+  transactionType: string;
 }

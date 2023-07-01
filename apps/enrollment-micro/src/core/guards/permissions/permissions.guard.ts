@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthProxyService } from '../../../services';
 import { PermissionsEnum } from '../../enums';
 import { PERMISSIONS_KEY } from '../../decorators';
+import { AuthProxyService } from 'apps/enrollment-micro/src/services/auth/auth-proxy.service';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {

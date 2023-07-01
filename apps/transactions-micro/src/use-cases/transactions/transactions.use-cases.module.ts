@@ -12,17 +12,16 @@ import { TransactionsBankbooksRepository } from '../../frameworks/data-services/
 import { TransactionsMappingProfile } from '../mapping/transactions/transactions.mapping.profile';
 import { TransactionsUseCases } from './transactions.use-cases';
 import { StatusMappingProfile } from '../mapping/common/status.mapping.profile';
-import { KafkaClientOptions } from '../../config/kafka-microservices.config';
 import { ActivityMappingProfile } from '../mapping/activity/activity.mapping.profile';
+import { ServiceModule } from '../../services';
 
 @Module({
   imports: [
     DataServicesPgModule,
+    ServiceModule,
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
-    ClientsModule.register(TCPConfigs),
-    ClientsModule.register(KafkaClientOptions),
   ],
   providers: [
     TransactionsUseCases,

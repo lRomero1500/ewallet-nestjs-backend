@@ -92,7 +92,7 @@ export class SecurityUseCases {
     userId: string,
     permission: string,
   ): Promise<boolean> {
-    const userPermission = this.userRepository.getByCondition({
+    const userPermission = await this.userRepository.getByCondition({
       where: {
         id: userId,
         roles: {
@@ -102,6 +102,6 @@ export class SecurityUseCases {
         },
       },
     });
-    return userPermission != null;
+    return userPermission ? true : false;
   }
 }

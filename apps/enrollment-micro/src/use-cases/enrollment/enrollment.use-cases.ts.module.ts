@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
   DataServicesPgModule,
   EnrollmentRepository,
@@ -10,17 +9,15 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { UserMappingProfile } from '../mapping/user/user.mapping.profile';
 import { PersonMappingProfile } from '../mapping/person/person.mapping.profile';
-import { TCPConfigs } from '../../config/tcp.config';
-import { KafkaClientOptions } from '../../config/kafkaClient.config';
+import { ServiceModule } from '../../services';
 
 @Module({
   imports: [
     DataServicesPgModule,
+    ServiceModule,
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
-    ClientsModule.register(TCPConfigs),
-    ClientsModule.register(KafkaClientOptions),
   ],
   providers: [
     EnrollmentUseCases,
