@@ -2,18 +2,21 @@ import { Column, Entity, OneToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { DecimalTransformer } from '../../transformers/decimal.transformer';
 import Decimal from 'decimal.js';
+import { AutoMap } from '@automapper/classes';
 
 @Entity({
   name: 'account',
   schema: 'enrollment',
 })
 export class AccountEntity {
+  @AutoMap()
   @Column({
     name: 'id',
     type: 'uuid',
     primary: true,
   })
   id: string;
+  @AutoMap()
   @Column({
     name: 'balance',
     type: 'decimal',

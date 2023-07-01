@@ -10,3 +10,14 @@ export const TCPConfigs: ClientsModuleOptions = [
     },
   },
 ];
+
+export const TCPAuthConfigs: ClientsModuleOptions = [
+  {
+    name: 'AUTH_SERVICE',
+    transport: Transport.TCP,
+    options: {
+      host: '127.0.0.1',
+      port: 3001,
+    },
+  },
+];

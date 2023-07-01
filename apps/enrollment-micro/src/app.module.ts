@@ -9,6 +9,8 @@ import { EnrollmentController } from './controllers/enrollment/enrollment.contro
 import { BalanceController } from './controllers/balance/balance.controller';
 import { AccountUseCasesModule } from './use-cases/account/account.use-cases.module';
 import { AccountController } from './controllers/account/account.controller';
+import { UserController } from './controllers/user/user.controller';
+import { UserUseCasesModule } from './use-cases/user/user.use-cases.module';
 
 @Module({
   imports: [
@@ -18,8 +20,15 @@ import { AccountController } from './controllers/account/account.controller';
     StatusUseCasesTsModule,
     EnrollmentUseCasesTsModule,
     AccountUseCasesModule,
+    UserUseCasesModule,
   ],
-  controllers: [CommonController, EnrollmentController, BalanceController, AccountController],
+  controllers: [
+    CommonController,
+    EnrollmentController,
+    BalanceController,
+    AccountController,
+    UserController,
+  ],
   providers: [],
 })
 export class AppModule {}

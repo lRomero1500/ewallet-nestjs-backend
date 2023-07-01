@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { PermissionEntity } from '../permission/permission.entity';
 import { UserEntity } from '../user';
+import { AutoMap } from '@automapper/classes';
 
 @Entity({
   name: 'role',
@@ -24,7 +25,7 @@ export class RoleEntity {
 
   @ManyToMany(() => UserEntity, (user) => user.roles)
   users: UserEntity[];
-
+  @AutoMap()
   @ManyToMany(() => PermissionEntity, (permission) => permission.roles, {
     cascade: ['insert'],
   })

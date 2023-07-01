@@ -18,4 +18,10 @@ export const Configuration = () => ({
     database: process.env.DATABASE_NAME ?? 'postgres',
     logging: process.env.DATABASE_LOGGING ?? 'true',
   },
+  auth0: {
+    host: process.env.AUTH0_DOMAIN,
+    clId: process.env.AUTH0_CLIENT_ID,
+    secret: process.env.AUTH0_SECRET,
+    audi: `${process.env.AUTH0_DOMAIN}/api/v2/`,
+  },
 });

@@ -4,6 +4,7 @@ import {
   Auth0UserCreateDTO,
   Auth0UserCreateResponseDTO,
 } from '../../../dtos/auth0';
+import { UserValidateTokenResponseDTO } from '../../../dtos/user/user-validate-token-response.dto';
 
 export interface IAuth0Service {
   getAppAuth0Token(): Promise<Auth0LoginResponseDTO | Auth0ErrorResponseDTO>;
@@ -15,4 +16,5 @@ export interface IAuth0Service {
     username: string,
     password: string,
   ): Promise<Auth0LoginResponseDTO | Auth0ErrorResponseDTO>;
+  validateAuth0Token(token: string): Promise<UserValidateTokenResponseDTO>;
 }
