@@ -1,12 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { AuthUseCases } from '../../use-cases/auth/auth.use-cases';
 import { SignInDTO, UserProfileDTO } from '../../core/dtos';
+import { AuthUseCases } from '../../use-cases';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly AuthUseCases: AuthUseCases) {}
+  constructor(private readonly authUseCases: AuthUseCases) {}
   @Post('/signIn')
   async singIn(@Body() data: SignInDTO): Promise<UserProfileDTO> {
-    return await this.AuthUseCases.authSignIn(data);
+    return await this.authUseCases.authSignIn(data);
   }
 }

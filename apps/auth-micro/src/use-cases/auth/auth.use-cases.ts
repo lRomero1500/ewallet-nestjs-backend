@@ -13,6 +13,7 @@ import { getMapperToken } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { RoleEntity } from '../../frameworks/data-services/pg';
 import { RoleDTO } from '../../core/dtos/role/role.dto';
+import { UserValidateTokenResponseDTO } from '../../core/dtos/user/user-validate-token-response.dto';
 
 export class AuthUseCases {
   constructor(
@@ -64,5 +65,10 @@ export class AuthUseCases {
       .add(auth0Token.expires_in, 'seconds')
       .toDate();
     return profile;
+  }
+  async validateAuth0Token(
+    token: string,
+  ): Promise<UserValidateTokenResponseDTO> {
+    return await this.auth0Service.validateAuth0Token(token);
   }
 }

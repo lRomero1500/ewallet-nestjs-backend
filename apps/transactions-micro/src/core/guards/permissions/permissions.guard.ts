@@ -1,9 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
-import { AuthProxyService } from '../../services';
-import { PermissionsEnum } from '../enums';
-import { PERMISSIONS_KEY } from '../decorators';
+import { AuthProxyService } from '../../../services';
+import { PermissionsEnum } from '../../enums';
+import { PERMISSIONS_KEY } from '../../decorators';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
@@ -11,7 +10,7 @@ export class PermissionsGuard implements CanActivate {
     private readonly reflector: Reflector,
     private readonly authService: AuthProxyService,
   ) {}
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredPermissions = this.reflector.getAllAndOverride<
       PermissionsEnum[]
     >(PERMISSIONS_KEY, [context.getHandler(), context.getClass()]);
@@ -20,9 +19,9 @@ export class PermissionsGuard implements CanActivate {
     }
     const { user } = context.switchToHttp().getRequest();
 
-    return requiredPermissions.some((permission) => {
-      return this.authService.validatePermission({
-        userId: user.id,
+    return await requiredPermissions.some(async (permission) => {
+      return await this.authService.validatePermission({
+        userId: user,
         permission: permission,
       });
     });

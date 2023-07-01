@@ -5,12 +5,17 @@ import {
   Auth0UserCreateDTO,
   Auth0UserCreateResponseDTO,
   UserPermissionDTO,
+  UserValidateTokenRequestDTO,
+  UserValidateTokenResponseDTO,
 } from '../../core';
-import { SecurityUseCases } from '../../use-cases';
+import { AuthUseCases, SecurityUseCases } from '../../use-cases';
 
 @Controller('security')
 export class SecurityController {
-  constructor(private readonly securityUseCases: SecurityUseCases) {}
+  constructor(
+    private readonly securityUseCases: SecurityUseCases,
+    private readonly authUseCases: AuthUseCases,
+  ) {}
   @MessagePattern({ cmd: 'create_user_security' }, Transport.TCP)
   async handleUserCreate(
     @Payload() data: Auth0UserCreateDTO,
@@ -25,5 +30,11 @@ export class SecurityController {
       data.userId,
       data.permission,
     );
+  }
+  @MessagePattern({ cmd: 'validate_user_token' }, Transport.TCP)
+  async validateAuth0Token(
+    @Payload() token: UserValidateTokenRequestDTO,
+  ): Promise<UserValidateTokenResponseDTO> {
+    return await this.authUseCases.validateAuth0Token(token?.token);
   }
 }
