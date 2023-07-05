@@ -1,22 +1,66 @@
 import { Module } from '@nestjs/common';
-import { DataServicesPgService } from './data-services-pg.service';
+import { TypeOrmConfigPgService } from './config/data-services-typeorm-pg-config.service';
 import { ConfigModule } from '@nestjs/config';
-import { Configuration } from 'src/config/configuration.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {
+  AccountEntity,
+  DocumentTypeEntity,
+  GenderEntity,
+  PersonEntity,
+  StatusEntity,
+  UserEntity,
+} from './entities';
+import {
+  AccountRepository,
+  DocumentTypeRepository,
+  GenderRepository,
+  PersonRepository,
+  StatusRepository,
+  UserRepository,
+  EnrollmentRepository,
+} from './repositories';
+import { Configuration } from 'apps/enrollment-micro/src/config';
+import { classes } from '@automapper/classes';
+import { AutomapperModule } from '@automapper/nestjs';
 
 @Module({
   imports: [
+    AutomapperModule.forRoot({ strategyInitializer: classes() }),
     ConfigModule.forRoot({
       load: [Configuration],
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useClass: DataServicesPgService,
+      useClass: TypeOrmConfigPgService,
     }),
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([
+      GenderEntity,
+      DocumentTypeEntity,
+      StatusEntity,
+      PersonEntity,
+      AccountEntity,
+      UserEntity,
+    ]),
   ],
-  providers: [DataServicesPgService],
-  exports: [TypeOrmModule],
+  providers: [
+    DocumentTypeRepository,
+    StatusRepository,
+    GenderRepository,
+    AccountRepository,
+    UserRepository,
+    PersonRepository,
+    EnrollmentRepository,
+  ],
+  exports: [
+    TypeOrmModule,
+    DocumentTypeRepository,
+    StatusRepository,
+    GenderRepository,
+    AccountRepository,
+    UserRepository,
+    PersonRepository,
+    EnrollmentRepository,
+  ],
 })
 export class DataServicesPgModule {}

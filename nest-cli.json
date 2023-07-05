@@ -1,22 +1,22 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/dany-wallet/src",
+  "sourceRoot": "apps/enrollment-micro/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/dany-wallet/tsconfig.app.json"
+    "tsConfigPath": "apps/enrollment-micro/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/dany-wallet",
+  "root": "apps/enrollment-micro",
   "projects": {
-    "dany-wallet": {
+    "enrollment-micro": {
       "type": "application",
-      "root": "apps/dany-wallet",
+      "root": "apps/enrollment-micro",
       "entryFile": "main",
-      "sourceRoot": "apps/dany-wallet/src",
+      "sourceRoot": "apps/enrollment-micro/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/dany-wallet/tsconfig.app.json"
+        "tsConfigPath": "apps/enrollment-micro/tsconfig.app.json"
       }
     },
     "auth-micro": {
