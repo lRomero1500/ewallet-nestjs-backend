@@ -12,7 +12,18 @@ services:
   #     MONGO_INITDB_ROOT_PASSWORD: password
   #   volumes:
   #     - ./data/mongo:/data/db
-
+  auth-micro:
+    image: auth-micro:version1
+    ports:
+      - 3001:3001
+  enrollment-micro:
+    image: enrollment-micro:version1
+    ports:
+      - 3000:3000
+  transactions-micro:
+    image: transactions-micro:version1
+    ports:
+      - 3002:3002
   postgres:
     image: postgres
     restart: always
