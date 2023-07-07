@@ -6,7 +6,7 @@ export const TCPConfigs: ClientsModuleOptions = [
     transport: Transport.TCP,
     options: {
       host: `${process.env.ENROLLMENT_MICRO}`,
-      port: 3000,
+      port: 3003,
     },
   },
 ];
@@ -17,7 +17,7 @@ export const TCPAuthConfigs: ClientsModuleOptions = [
     transport: Transport.TCP,
     options: {
       host: `${process.env.AUTH_MICRO}`,
-      port: 3001,
+      port: 3004,
     },
   },
 ];

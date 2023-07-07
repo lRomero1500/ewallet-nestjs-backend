@@ -18,7 +18,7 @@ export const TCPConfigs: MicroserviceOptions = {
   transport: Transport.TCP,
   options: {
     host: `${process.env.AUTH_MICRO}`,
-    port: 3001,
+    port: 3004,
   },
 };
 
@@ -28,7 +28,7 @@ export const TCPEnrollmentConfigs: ClientsModuleOptions = [
     transport: Transport.TCP,
     options: {
       host: `${process.env.ENROLLMENT_MICRO}`,
-      port: 3000,
+      port: 3003,
     },
   },
 ];

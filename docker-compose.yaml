@@ -14,20 +14,46 @@ services:
   #     - ./data/mongo:/data/db
   auth-micro:
     image: auth-micro:version1
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - kafka
+    links:
+      - postgres
+      - kafka
     ports:
-      - 3001:3001
+      - 3004:3004
   enrollment-micro:
     image: enrollment-micro:version1
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - kafka
+    links:
+      - postgres
+      - kafka
     ports:
       - 3000:3000
   transactions-micro:
     image: transactions-micro:version1
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - kafka
+    links:
+      - postgres
+      - kafka
     ports:
       - 3002:3002
   postgres:
     image: postgres
     restart: always
     container_name: PostgreSQL
+    networks:
+      - backend
     ports:
       - 5432:5432
     environment:
@@ -42,6 +68,8 @@ services:
     image: confluentinc/cp-zookeeper
     hostname: zookeeper
     container_name: ZooKeeper
+    networks:
+      - backend
     ports:
       - 2181:2181
     environment:
@@ -53,6 +81,8 @@ services:
     restart: always
     hostname: Kafka
     container_name: Kafka
+    networks:
+      - backend
     links:
       - zookeeper
     ports:
@@ -69,9 +99,15 @@ services:
     image: quay.io/cloudhut/kowl:v1.3.1
     container_name: kowl
     restart: always
+    networks:
+      - backend
     ports:
       - 8080:8080
     depends_on:
       - kafka
     environment:
       - KAFKA_BROKERS=kafka:19091
+
+networks:
+  backend:
+    driver: bridge
