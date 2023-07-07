@@ -10,7 +10,7 @@ export const KafkaClientOptions: ClientsModuleOptions = [
     options: {
       client: {
         clientId: 'Enrollment-micro',
-        brokers: ['localhost:9091'],
+        brokers: [`${process.env.KAFKA_SERVICES}:9091`],
       },
       consumer: {
         groupId: 'transaction-micro',
@@ -22,7 +22,7 @@ export const KafkaMicroservices: MicroserviceOptions = {
   transport: Transport.KAFKA,
   options: {
     client: {
-      brokers: ['localhost:9091'],
+      brokers: [`${process.env.KAFKA_SERVICES}:9091`],
       clientId: 'Enrollment-Micro',
     },
     consumer: {

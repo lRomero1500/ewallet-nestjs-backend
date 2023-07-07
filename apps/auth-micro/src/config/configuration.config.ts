@@ -8,7 +8,6 @@ dotenv.config({
     `.env.${process.env.SCOPE?.trim()}`,
   ),
 });
-
 export const Configuration = () => ({
   database: {
     host: process.env.DATABASE_HOST ?? 'localhost',
