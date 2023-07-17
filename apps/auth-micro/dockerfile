@@ -14,5 +14,5 @@ RUN npm ci --only=production --omit=dev
 COPY --from=development /usr/src/app/dist/apps/auth-micro ./dist/apps/auth-micro
 COPY --from=development /usr/src/app/environments ./environments
 USER node
-EXPOSE 3004
+EXPOSE 3004-3005
 CMD ["npm", "run", "start-auth:prod"]

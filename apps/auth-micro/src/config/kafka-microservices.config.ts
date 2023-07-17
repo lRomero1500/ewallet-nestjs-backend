@@ -14,7 +14,7 @@ export const KafkaMicroservices: MicroserviceOptions = {
   transport: Transport.KAFKA,
   options: {
     client: {
-      brokers: [`${process.env.KAFKA_SERVICES}:9091`],
+      brokers: [`${process.env.KAFKA_SERVICES}:9093`],
       clientId: 'Auth-Micro',
     },
   },
